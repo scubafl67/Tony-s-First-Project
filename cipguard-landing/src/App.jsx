@@ -3,6 +3,7 @@ import { useState } from 'react'
 // ─── NAV ────────────────────────────────────────────────────────────────────
 function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const links = ['Platform', 'Pricing', 'Results', 'Resources']
   return (
     <nav style={{ background: 'rgba(10,22,40,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,168,204,0.15)', position: 'sticky', top: 0, zIndex: 50 }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
@@ -17,17 +18,46 @@ function Nav() {
         </div>
 
         {/* Desktop links */}
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="hidden md:flex">
-          {['Platform','Pricing','Results','Resources'].map(l => (
+        <div style={{ gap: '2rem', alignItems: 'center' }} className="hidden md:flex">
+          {links.map(l => (
             <a key={l} href="#" className="nav-link" style={{ fontSize: '0.9rem', fontWeight: 500 }}>{l}</a>
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+        {/* Desktop actions */}
+        <div style={{ gap: '0.75rem', alignItems: 'center' }} className="hidden md:flex">
           <a href="#" className="secondary-btn" style={{ padding: '0.5rem 1.125rem', borderRadius: 6, fontSize: '0.875rem', textDecoration: 'none' }}>Log In</a>
           <a href="#" className="cta-btn" style={{ padding: '0.5rem 1.25rem', borderRadius: 6, fontSize: '0.875rem', textDecoration: 'none' }}>Schedule a Demo</a>
         </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden"
+          onClick={() => setMenuOpen(open => !open)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: '#fff', display: 'inline-flex', alignItems: 'center' }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {menuOpen
+              ? <path d="M18 6 6 18M6 6l12 12" />
+              : <path d="M3 12h18M3 6h18M3 18h18" />}
+          </svg>
+        </button>
       </div>
+
+      {/* Mobile menu panel */}
+      {menuOpen && (
+        <div className="md:hidden" style={{ borderTop: '1px solid rgba(0,168,204,0.15)', padding: '1rem 1.5rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {links.map(l => (
+            <a key={l} href="#" className="nav-link" onClick={() => setMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: 500, padding: '0.5rem 0' }}>{l}</a>
+          ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.75rem' }}>
+            <a href="#" className="secondary-btn" onClick={() => setMenuOpen(false)} style={{ padding: '0.625rem 1.125rem', borderRadius: 6, fontSize: '0.9rem', textDecoration: 'none', textAlign: 'center' }}>Log In</a>
+            <a href="#" className="cta-btn" onClick={() => setMenuOpen(false)} style={{ padding: '0.625rem 1.25rem', borderRadius: 6, fontSize: '0.9rem', textDecoration: 'none', textAlign: 'center' }}>Schedule a Demo</a>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }
