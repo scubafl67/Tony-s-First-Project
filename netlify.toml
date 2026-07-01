@@ -1,7 +1,7 @@
 [build]
   base = "cipguard-landing"
   command = "npm run build"
-  publish = "cipguard-landing/dist"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
